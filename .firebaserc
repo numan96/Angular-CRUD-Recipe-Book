@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "ng-course-recipe-book-4243a"
+  },
+  "targets": {
+    "ng-course-recipe-book-4243a": {
+      "hosting": {
+        "courseproject": [
+          "ng-course-recipe-book-4243a"
+        ]
+      }
+    }
+  }
+}
