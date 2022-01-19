@@ -1,6 +1,6 @@
 # Courseproject
 
-This website was created with Angular, NgRx, Firebase, CSS and Bootstrap.
+This website was created with Angular 11, NgRx, Firebase, CSS and Bootstrap.
 
 ## Live Website
 
