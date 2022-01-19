@@ -2,6 +2,16 @@
 
 This website was created with Angular, NgRx, Firebase, CSS and Bootstrap.
 
+## Live Website
+
+`https://ng-course-recipe-book-4243a.web.app/`
+
+## Test Login Details
+
+Username: test@test.com 
+
+Password: test123
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.1.
 
 ## Development server
