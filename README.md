@@ -1,5 +1,5 @@
 # Angular Recipe Book
-This website was created with Angular 11, NgRx, Firebase, CSS and Bootstrap.
+This website was created with Angular 11, TypeScript, NgRx, Firebase, CSS and Bootstrap.
 
 ## Live Website
 
