@@ -1,5 +1,4 @@
-# Courseproject
-
+# Angular Recipe Book
 This website was created with Angular 11, NgRx, Firebase, CSS and Bootstrap.
 
 ## Live Website
