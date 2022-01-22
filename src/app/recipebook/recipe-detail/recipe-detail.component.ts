@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { ShoppinglistService } from 'src/app/shoppinglist/shoppinglist.service';
 import { Recipe } from '../recipe.model';
-import { RecipebookService } from '../recipebook.service';
 import * as fromApp from '../../store/app.reducer';
 import * as RecipesActions from '../store/recipe.actions';
 import * as ShoppingListActions from '../../shoppinglist/store/shoppinglist.actions';
@@ -12,57 +10,53 @@ import { map, switchMap } from 'rxjs/operators';
 @Component({
   selector: 'app-recipe-detail',
   templateUrl: './recipe-detail.component.html',
-  styleUrls: ['./recipe-detail.component.css']
+  styleUrls: ['./recipe-detail.component.css'],
 })
 export class RecipeDetailComponent implements OnInit {
-recipeDetail: Recipe;
-id: number;
+  public recipeDetail: Recipe;
+  private _id: number;
 
-  constructor(private shoppingService: ShoppinglistService,
-    private recipeService: RecipebookService,
-    private route: ActivatedRoute, 
-    private router: Router,
-    private store: Store<fromApp.AppState>) { }
+  constructor(
+    private _route: ActivatedRoute,
+    private _router: Router,
+    private _store: Store<fromApp.AppState>
+  ) {}
 
   ngOnInit() {
-    this.route.params.pipe(map(params => {
-      return +params['id'];
-    }), switchMap(id => {
-      this.id = id;
-      return this.store.select('recipes');
-    }),
-    map(recipesState => {
-      return recipesState.recipes.find((recipeDetail, index) => {
-    return index === this.id;
+    this._route.params
+      .pipe(
+        map((params) => {
+          return +params['id'];
+        }),
+        switchMap((id) => {
+          this._id = id;
+          return this._store.select('recipes');
+        }),
+        map((recipesState) => {
+          return recipesState.recipes.find((recipeDetail, index) => {
+            return index === this._id;
+          });
+        })
+      )
+
+      .subscribe((recipe) => {
+        this.recipeDetail = recipe;
       });
-    }))
-// this.recipeDetail = this.recipeService.getRecipe(this.id);
-.subscribe(recipe => {
-  this.recipeDetail = recipe;
-});
   }
 
-  addToList(){
-this.store.dispatch(new ShoppingListActions.AddIngredients(this.recipeDetail.ingredients));
-
-  //  this.recipeService.addIngredientsToShoppingList(this.recipeDetail.ingredients);
+  public addToList() {
+    this._store.dispatch(
+      new ShoppingListActions.AddIngredients(this.recipeDetail.ingredients)
+    );
   }
 
-
-  onEditRecipe(){
-
-this.router.navigate(['edit'], {relativeTo: this.route});
-//this.router.navigate(['../', this.id, 'edit'], {relativeTo: this.route});
-
+  public onEditRecipe() {
+    this._router.navigate(['edit'], { relativeTo: this._route });
   }
 
-  onDeleteRecipe(){
+  public onDeleteRecipe() {
+    this._store.dispatch(new RecipesActions.DeleteRecipe(this._id));
 
-// this.recipeService.deleteRecipe(this.id);
-this.store.dispatch(new RecipesActions.DeleteRecipe(this.id));
-
-this.router.navigate(['/recipes']);
-
+    this._router.navigate(['/recipes']);
   }
-
 }
