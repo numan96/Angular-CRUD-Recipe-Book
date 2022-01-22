@@ -20,21 +20,21 @@ export class AuthComponent implements OnInit, OnDestroy {
   @ViewChild(PlaceholderDirective, { static: false })
   public isLoginMode = true;
   public isLoading = false;
-  private error: string = null;
-  private alertHost: PlaceholderDirective;
-  private closeSub: Subscription;
-  private storeSub: Subscription;
+  private _error: string = null;
+  private _alertHost: PlaceholderDirective;
+  private _closeSub: Subscription;
+  private _storeSub: Subscription;
   constructor(
     private _componentFactoryResolver: ComponentFactoryResolver,
     private _store: Store<fromApp.AppState>
   ) {}
 
   ngOnInit() {
-    this.storeSub = this._store.select('auth').subscribe((authState) => {
+    this._storeSub = this._store.select('auth').subscribe((authState) => {
       this.isLoading = authState.loading;
-      this.error = authState.authError;
-      if (this.error) {
-        this.showErrorAlert(this.error);
+      this._error = authState.authError;
+      if (this._error) {
+        this.showErrorAlert(this._error);
       }
     });
   }
@@ -64,8 +64,8 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.storeSub) {
-      this.storeSub.unsubscribe();
+    if (this._storeSub) {
+      this._storeSub.unsubscribe();
     }
   }
 
@@ -73,7 +73,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     const alertCmpFactory =
       this._componentFactoryResolver.resolveComponentFactory(AlertComponent);
 
-    const hostViewContainerRef = this.alertHost.viewContainerRef;
+    const hostViewContainerRef = this._alertHost.viewContainerRef;
 
     hostViewContainerRef.clear();
 
@@ -81,8 +81,8 @@ export class AuthComponent implements OnInit, OnDestroy {
 
     componentRef.instance.message = message;
 
-    this.closeSub = componentRef.instance.close.subscribe(() => {
-      this.closeSub.unsubscribe();
+    this._closeSub = componentRef.instance.close.subscribe(() => {
+      this._closeSub.unsubscribe();
       hostViewContainerRef.clear();
     });
   }
